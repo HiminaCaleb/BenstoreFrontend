@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mr D | Food Delivery, Pick n Pay Groceries & Drinks in South Africa</title>
+  <meta name="description" content="Mr D is South Africa's favourite delivery app. Order from 11,000+ top restaurants, Pick n Pay supermarkets, and liquor stores with fast, reliable delivery.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Top Global Announcement -->
+  <aside class="announcement-bar" role="region" aria-label="Special Offers">
+    <div class="announcement-content">
+      <span class="badge-fire">🔥 HOT DEAL</span>
+      <span>Use code <strong class="promo-code-pill">MRD50</strong> for R50 OFF your first order!</span>
+      <span class="announcement-divider">•</span>
+      <span>Free delivery on Pick n Pay orders over R250</span>
+    </div>
+  </aside>
+
+  <!-- Main Navigation Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <!-- Logo & Brand -->
+      <div class="brand-wrapper">
+        <a href="#" class="brand-logo" id="home-link" aria-label="Mr D Home">
+          <span class="logo-badge">Mr</span>
+          <span class="logo-letter">D</span>
+          <span class="logo-smile">
+            <svg width="24" height="10" viewBox="0 0 24 10" fill="none">
+              <path d="M2 2C7 8 17 8 22 2" stroke="#121212" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+          </span>
+        </a>
+
+        <!-- Service Mode Switcher (Delivery vs Pick Up) -->
+        <div class="mode-toggle" role="radiogroup" aria-label="Order Mode">
+          <button type="button" class="mode-btn active" id="mode-delivery" role="radio" aria-checked="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="1" y="3" width="15" height="13"></rect>
+              <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+              <circle cx="5.5" cy="18.5" r="2.5"></circle>
+              <circle cx="18.5" cy="18.5" r="2.5"></circle>
+            </svg>
+            Delivery
+          </button>
+          <button type="button" class="mode-btn" id="mode-collect" role="radio" aria-checked="false">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <path d="M16 10a4 4 0 0 1-8 0"></path>
+            </svg>
+            Collect
+          </button>
+        </div>
+      </div>
+
+      <!-- Address Selector -->
+      <button type="button" class="address-picker-btn" id="open-address-modal" aria-label="Change delivery location">
+        <svg class="icon-pin" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+          <circle cx="12" cy="10" r="3"></circle>
+        </svg>
+        <div class="address-meta">
+          <span class="address-caption">Deliver to</span>
+          <strong class="address-title" id="current-location-text">Sandton City, Johannesburg</strong>
+        </div>
+        <svg class="icon-caret" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </button>
+
+      <!-- Global Search Bar -->
+      <div class="search-bar-wrapper">
+        <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="search" id="global-search-input" placeholder="Search dishes, restaurants, groceries or drinks..." aria-label="Search restaurants and dishes">
+        <button type="button" id="search-clear-btn" class="search-clear-btn hidden" aria-label="Clear search">✕</button>
+      </div>
+
+      <!-- Right Header Actions -->
+      <div class="header-actions">
+        <!-- Rewards Button -->
+        <button type="button" class="action-btn rewards-btn" id="ebucks-badge" title="Earn & Spend eBucks with Mr D">
+          <span class="ebucks-tag">eB</span>
+          <span class="rewards-text">eBucks</span>
+        </button>
+
+        <!-- Active Orders Tracker Button -->
+        <button type="button" class="action-btn tracker-shortcut-btn hidden" id="live-order-btn" title="View live order progress">
+          <span class="tracking-pulse"></span>
+          <span class="btn-text">Tracking Order</span>
+        </button>
+
+        <!-- Cart Trigger Button -->
+        <button type="button" class="cart-trigger-btn" id="open-cart-btn" aria-label="View shopping basket">
+          <div class="cart-icon-wrap">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <path d="M16 10a4 4 0 0 1-8 0"></path>
+            </svg>
+            <span class="cart-counter" id="cart-counter-badge">0</span>
+          </div>
+          <span class="cart-btn-amount" id="cart-total-badge">R 0.00</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Viewport Content -->
+  <main class="main-content">
+    <!-- Store View Container (Hidden when browsing stores) -->
+    <section id="store-detail-view" class="store-detail-section hidden" aria-live="polite">
+      <!-- Injected by JavaScript -->
+    </section>
+
+    <!-- Home View Container (Catalog & Discovery) -->
+    <section id="home-view" class="home-view-section">
+      <!-- Promo Hero Carousel -->
+      <section class="hero-carousel-container" aria-label="Promotions Carousel">
+        <div class="hero-carousel" id="promo-carousel">
+          <div class="carousel-slide slide-1 active">
+            <div class="slide-content">
+              <span class="slide-tag">PICK N PAY PARTNERSHIP</span>
+              <h2>Groceries at In-Store Prices</h2>
+              <p>Over 10,000 grocery items delivered right to your kitchen counter in under 60 minutes.</p>
+              <button type="button" class="btn-hero-cta" data-category="pnp">Shop Pick n Pay</button>
+            </div>
+            <div class="slide-visual">
+              <div class="visual-art grocery-art">
+                <span class="art-icon">🥦</span>
+                <span class="art-icon">🥖</span>
+                <span class="art-icon">🥩</span>
+                <span class="art-icon">🥛</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="carousel-slide slide-2">
+            <div class="slide-content">
+              <span class="slide-tag">WEEKEND FEAST</span>
+              <h2>Craving South Africa's Favourites?</h2>
+              <p>Hot flames from Nando's, legendary RocoMamas smashburgers & Steers real chips.</p>
+              <button type="button" class="btn-hero-cta" data-category="food">Order Takeaway</button>
+            </div>
+            <div class="slide-visual">
+              <div class="visual-art food-art">
+                <span class="art-icon">🍔</span>
+                <span class="art-icon">🍗</span>
+                <span class="art-icon">🍟</span>
+                <span class="art-icon">🍕</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="carousel-slide slide-3">
+            <div class="slide-content">
+              <span class="slide-tag">TAKEALOT NOW</span>
+              <h2>Tech, Toys & Essentials Fast</h2>
+              <p>Phone chargers, headphones, board games & party supplies delivered in 30 minutes.</p>
+              <button type="button" class="btn-hero-cta" data-category="takealot">Explore TakealotNOW</button>
+            </div>
+            <div class="slide-visual">
+              <div class="visual-art tech-art">
+                <span class="art-icon">🎧</span>
+                <span class="art-icon">🎮</span>
+                <span class="art-icon">🔋</span>
+                <span class="art-icon">📱</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Carousel Indicators -->
+        <div class="carousel-dots" id="carousel-dots" role="tablist" aria-label="Promotions slider pagination">
+          <button type="button" class="dot active" data-index="0" aria-label="Promo 1"></button>
+          <button type="button" class="dot" data-index="1" aria-label="Promo 2"></button>
+          <button type="button" class="dot" data-index="2" aria-label="Promo 3"></button>
+        </div>
+      </section>
+
+      <!-- Category Navigation Tiles -->
+      <nav class="category-nav-bar" aria-label="Delivery Categories">
+        <div class="category-chips-grid">
+          <button type="button" class="category-chip active" data-category="all">
+            <span class="cat-icon">⚡</span>
+            <span class="cat-label">All</span>
+          </button>
+          <button type="button" class="category-chip" data-category="food">
+            <span class="cat-icon">🍔</span>
+            <span class="cat-label">Restaurants</span>
+          </button>
+          <button type="button" class="category-chip" data-category="pnp">
+            <span class="cat-icon">🛒</span>
+            <span class="cat-label">Pick n Pay</span>
+          </button>
+          <button type="button" class="category-chip" data-category="liquor">
+            <span class="cat-icon">🍷</span>
+            <span class="cat-label">Liquor & Beer</span>
+          </button>
+          <button type="button" class="category-chip" data-category="takealot">
+            <span class="cat-icon">📦</span>
+            <span class="cat-label">TakealotNOW</span>
+          </button>
+          <button type="button" class="category-chip" data-category="deals">
+            <span class="cat-icon">🏷️</span>
+            <span class="cat-label">R50 OFF Deals</span>
+          </button>
+        </div>
+      </nav>
+
+      <!-- Quick Filter & Sorting Row -->
+      <section class="filters-toolbar" aria-label="Filters and Sorting">
+        <div class="filters-scroll">
+          <button type="button" class="filter-pill active" data-filter="all">All Stores</button>
+          <button type="button" class="filter-pill" data-filter="top-rated">★ 4.5+ Rating</button>
+          <button type="button" class="filter-pill" data-filter="fast">⏱ Under 30 mins</button>
+          <button type="button" class="filter-pill" data-filter="free-del">🛵 Free Delivery</button>
+          <button type="button" class="filter-pill" data-filter="halaal">🍗 Halaal Friendly</button>
+          <button type="button" class="filter-pill" data-filter="budget">🏷️ Deals Available</button>
+        </div>
+
+        <div class="sort-selector-wrapper">
+          <label for="store-sort-select" class="sort-label">Sort by:</label>
+          <select id="store-sort-select" class="sort-select">
+            <option value="popular">Most Popular</option>
+            <option value="rating">Top Rated</option>
+            <option value="fastest">Fastest Delivery</option>
+            <option value="lowest-fee">Lowest Delivery Fee</option>
+          </select>
+        </div>
+      </section>
+
+      <!-- Store Catalog Section -->
+      <section class="store-catalog-section">
+        <div class="section-title-row">
+          <div class="title-meta">
+            <h1 class="section-heading" id="catalog-title">Available Stores & Restaurants</h1>
+            <p class="section-subtitle" id="catalog-count">Showing top delivery options near Sandton</p>
+          </div>
+        </div>
+
+        <!-- Stores Grid -->
+        <div class="stores-grid" id="stores-grid" role="list">
+          <!-- Injected via JavaScript -->
+        </div>
+
+        <!-- Empty State -->
+        <div class="empty-state hidden" id="empty-stores-state">
+          <div class="empty-icon">🔍</div>
+          <h3>No stores found</h3>
+          <p>We couldn't find any stores matching your search and filter criteria. Try clearing some filters!</p>
+          <button type="button" class="btn-secondary" id="reset-filters-btn">Reset All Filters</button>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <!-- Cart / Shopping Basket Slide-Out Drawer -->
+  <aside class="cart-drawer-overlay hidden" id="cart-drawer-overlay">
+    <div class="cart-drawer" role="dialog" aria-modal="true" aria-labelledby="cart-heading">
+      <!-- Drawer Header -->
+      <div class="cart-header">
+        <div class="cart-header-title">
+          <h2 id="cart-heading">Your Basket</h2>
+          <span class="cart-store-tag" id="cart-store-name">No store selected</span>
+        </div>
+        <button type="button" class="btn-close-drawer" id="close-cart-btn" aria-label="Close cart">✕</button>
+      </div>
+
+      <!-- Free Delivery Progress Meter -->
+      <div class="free-delivery-meter" id="free-delivery-meter">
+        <div class="meter-text" id="meter-text">Add R 65.00 more for Free Delivery!</div>
+        <div class="meter-track">
+          <div class="meter-fill" id="meter-fill" style="width: 55%"></div>
+        </div>
+      </div>
+
+      <!-- Cart Items List -->
+      <div class="cart-items-container" id="cart-items-list">
+        <!-- Injected via JavaScript -->
+      </div>
+
+      <!-- Empty Cart Message -->
+      <div class="cart-empty-view hidden" id="cart-empty-view">
+        <div class="empty-basket-illustration">🛒</div>
+        <h3>Your basket is empty</h3>
+        <p>Explore menus and add your favourite meals or groceries to start an order.</p>
+        <button type="button" class="btn-primary" id="btn-start-shopping">Start Shopping</button>
+      </div>
+
+      <!-- Cart Footer & Billing Breakdown -->
+      <div class="cart-footer" id="cart-footer">
+        <!-- Cutlery Opt-in -->
+        <div class="cutlery-toggle-row">
+          <label class="toggle-control" for="cutlery-checkbox">
+            <input type="checkbox" id="cutlery-checkbox" checked>
+            <span class="toggle-switch"></span>
+            <span class="toggle-label">Include cutlery & serviettes with order</span>
+          </label>
+        </div>
+
+        <!-- Driver Tip Selector -->
+        <div class="driver-tip-section">
+          <span class="tip-heading">Driver Tip (100% goes to driver)</span>
+          <div class="tip-options-grid" role="radiogroup" aria-label="Driver tip selection">
+            <button type="button" class="tip-btn" data-tip="10">R 10</button>
+            <button type="button" class="tip-btn active" data-tip="15">R 15</button>
+            <button type="button" class="tip-btn" data-tip="25">R 25</button>
+            <button type="button" class="tip-btn" data-tip="35">R 35</button>
+            <button type="button" class="tip-btn" data-tip="0">None</button>
+          </div>
+        </div>
+
+        <!-- Voucher Code Input -->
+        <div class="promo-input-row">
+          <div class="promo-field-wrap">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="19" y1="5" x2="5" y2="19"></line>
+              <circle cx="6.5" cy="6.5" r="2.5"></circle>
+              <circle cx="17.5" cy="17.5" r="2.5"></circle>
+            </svg>
+            <input type="text" id="voucher-code-input" placeholder="Enter coupon or promo code" uppercase>
+          </div>
+          <button type="button" class="btn-apply-voucher" id="apply-voucher-btn">Apply</button>
+        </div>
+
+        <!-- Applied Voucher Feedback -->
+        <div class="voucher-applied-banner hidden" id="voucher-applied-banner">
+          <span class="voucher-tag">PROMO APPLIED</span>
+          <span class="voucher-text" id="voucher-applied-text">MRD50 (-R 50.00)</span>
+          <button type="button" class="btn-remove-voucher" id="remove-voucher-btn" title="Remove promo">✕</button>
+        </div>
+
+        <!-- Cost Breakdown Table -->
+        <div class="cost-summary-table">
+          <div class="summary-line">
+            <span>Item Subtotal</span>
+            <span id="summary-subtotal">R 0.00</span>
+          </div>
+          <div class="summary-line">
+            <span>Delivery Fee</span>
+            <span id="summary-delivery">R 15.00</span>
+          </div>
+          <div class="summary-line">
+            <span>Service & Tech Fee</span>
+            <span id="summary-service">R 5.00</span>
+          </div>
+          <div class="summary-line">
+            <span>Driver Tip</span>
+            <span id="summary-tip">R 15.00</span>
+          </div>
+          <div class="summary-line discount-line hidden" id="summary-discount-row">
+            <span>Discount</span>
+            <span class="discount-val" id="summary-discount">-R 0.00</span>
+          </div>
+          <div class="summary-line total-line">
+            <span>Total Amount</span>
+            <strong class="total-price" id="summary-total">R 0.00</strong>
+          </div>
+        </div>
+
+        <!-- Checkout Action Button -->
+        <button type="button" class="btn-checkout-cta" id="btn-proceed-checkout">
+          <span>Go to Checkout</span>
+          <span class="btn-checkout-total" id="checkout-btn-total">R 0.00</span>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Item Customization Modal -->
+  <dialog class="app-modal" id="customization-modal" aria-labelledby="modal-item-title">
+    <div class="modal-dialog-content">
+      <button type="button" class="modal-close-btn" id="close-custom-modal" aria-label="Close customization">✕</button>
+      
+      <div class="modal-item-preview">
+        <div class="modal-item-image" id="modal-item-img-wrap">
+          <img id="modal-item-image" src="" alt="Menu Item Preview">
+        </div>
+        <div class="modal-item-details">
+          <div class="modal-tag" id="modal-item-tag">POPULAR</div>
+          <h2 id="modal-item-title">Item Title</h2>
+          <p id="modal-item-desc">Item description explaining ingredients and allergens.</p>
+          <div class="modal-item-baseprice" id="modal-item-baseprice">R 0.00</div>
+        </div>
+      </div>
+
+      <div class="customizer-options-body">
+        <!-- Portion / Size Selection -->
+        <fieldset class="custom-group">
+          <legend class="group-title">
+            <span>Choose Size</span>
+            <span class="badge-required">Required</span>
+          </legend>
+          <div class="options-radio-list" id="modal-sizes-list">
+            <!-- Injected via JS -->
+          </div>
+        </fieldset>
+
+        <!-- Extras & Add-ons -->
+        <fieldset class="custom-group">
+          <legend class="group-title">
+            <span>Add Extras</span>
+            <span class="badge-optional">Optional</span>
+          </legend>
+          <div class="options-checkbox-list" id="modal-addons-list">
+            <!-- Injected via JS -->
+          </div>
+        </fieldset>
+
+        <!-- Special Instructions Textarea -->
+        <div class="custom-group">
+          <label for="item-instructions" class="group-title">
+            <span>Special Instructions</span>
+            <span class="badge-optional">Optional</span>
+          </label>
+          <textarea id="item-instructions" rows="2" placeholder="e.g. Extra serviettes, sauce on the side, well done..."></textarea>
+        </div>
+      </div>
+
+      <!-- Customization Modal Footer -->
+      <div class="modal-action-footer">
+        <div class="quantity-stepper">
+          <button type="button" class="stepper-btn" id="custom-qty-minus" aria-label="Decrease quantity">−</button>
+          <span class="stepper-count" id="custom-qty-count">1</span>
+          <button type="button" class="stepper-btn" id="custom-qty-plus" aria-label="Increase quantity">+</button>
+        </div>
+
+        <button type="button" class="btn-add-custom-to-cart" id="btn-add-customized-cart">
+          <span>Add to Basket</span>
+          <span id="custom-modal-total">R 0.00</span>
+        </button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Checkout & Payment Modal -->
+  <dialog class="app-modal" id="checkout-modal" aria-labelledby="checkout-title">
+    <div class="modal-dialog-content checkout-dialog">
+      <button type="button" class="modal-close-btn" id="close-checkout-modal" aria-label="Close checkout">✕</button>
+
+      <div class="checkout-header">
+        <h2 id="checkout-title">Checkout & Place Order</h2>
+        <p>Complete your delivery and payment details</p>
+      </div>
+
+      <form id="checkout-form" class="checkout-form-body">
+        <!-- Step 1: Address Confirmation -->
+        <fieldset class="checkout-step">
+          <legend class="step-heading">
+            <span class="step-num">1</span>
+            <span>Delivery Address</span>
+          </legend>
+          <div class="form-grid">
+            <div class="form-group full-width">
+              <label for="checkout-street">Street Address</label>
+              <input type="text" id="checkout-street" value="83 Rivonia Road, Sandhurst" required>
+            </div>
+            <div class="form-group half-width">
+              <label for="checkout-apt">Apt / Complex / Unit</label>
+              <input type="text" id="checkout-apt" placeholder="e.g. Block B, Unit 402">
+            </div>
+            <div class="form-group half-width">
+              <label for="checkout-instructions">Delivery Note</label>
+              <input type="text" id="checkout-instructions" placeholder="e.g. Ring buzzer at security gate">
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Step 2: Recipient Details -->
+        <fieldset class="checkout-step">
+          <legend class="step-heading">
+            <span class="step-num">2</span>
+            <span>Contact Details for Driver</span>
+          </legend>
+          <div class="form-grid">
+            <div class="form-group half-width">
+              <label for="checkout-name">Full Name</label>
+              <input type="text" id="checkout-name" value="Caleb Mashamba" required>
+            </div>
+            <div class="form-group half-width">
+              <label for="checkout-phone">Mobile Number</label>
+              <input type="tel" id="checkout-phone" value="+27 82 555 0192" required>
+            </div>
+          </div>
+        </fieldset>
+
+        <!-- Step 3: Payment Method -->
+        <fieldset class="checkout-step">
+          <legend class="step-heading">
+            <span class="step-num">3</span>
+            <span>Payment Method</span>
+          </legend>
+          <div class="payment-methods-grid">
+            <label class="payment-card-option">
+              <input type="radio" name="payment-method" value="card" checked>
+              <div class="payment-box">
+                <span class="payment-icon">💳</span>
+                <div class="payment-text">
+                  <strong>Credit / Debit Card</strong>
+                  <small>Visa, Mastercard, Amex</small>
+                </div>
+              </div>
+            </label>
+
+            <label class="payment-card-option">
+              <input type="radio" name="payment-method" value="eft">
+              <div class="payment-box">
+                <span class="payment-icon">⚡</span>
+                <div class="payment-text">
+                  <strong>Instant EFT</strong>
+                  <small>Capitec Pay, Ozow, SiD</small>
+                </div>
+              </div>
+            </label>
+
+            <label class="payment-card-option">
+              <input type="radio" name="payment-method" value="ebucks">
+              <div class="payment-box">
+                <span class="payment-icon">🪙</span>
+                <div class="payment-text">
+                  <strong>eBucks Rewards</strong>
+                  <small>FNB eBucks Points</small>
+                </div>
+              </div>
+            </label>
+
+            <label class="payment-card-option">
+              <input type="radio" name="payment-method" value="cash">
+              <div class="payment-box">
+                <span class="payment-icon">💵</span>
+                <div class="payment-text">
+                  <strong>Cash on Delivery</strong>
+                  <small>Exact change appreciated</small>
+                </div>
+              </div>
+            </label>
+          </div>
+        </fieldset>
+
+        <!-- Checkout Review Summary -->
+        <div class="checkout-review-box">
+          <div class="review-row">
+            <span>Estimated Delivery Time:</span>
+            <strong>25 - 35 mins</strong>
+          </div>
+          <div class="review-row">
+            <span>Total Payable:</span>
+            <strong class="review-total" id="modal-checkout-total">R 0.00</strong>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-primary btn-submit-order" id="btn-place-order">
+          <span class="btn-text">Pay & Confirm Order</span>
+          <span class="btn-spinner hidden" id="order-submit-spinner"></span>
+        </button>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- Live Order Tracking Screen / Modal -->
+  <dialog class="app-modal" id="tracking-modal" aria-labelledby="tracking-heading">
+    <div class="modal-dialog-content tracking-dialog">
+      <button type="button" class="modal-close-btn" id="close-tracking-modal" aria-label="Close tracking">✕</button>
+
+      <!-- Tracking Header & Estimated Time -->
+      <div class="tracking-top-card">
+        <div class="eta-meta">
+          <span class="eta-badge">ON TIME</span>
+          <h2 id="tracking-heading" class="eta-time">Estimated: <span id="track-eta-clock">18:45</span></h2>
+          <p class="eta-countdown" id="track-eta-countdown">Arriving in approx. 24 mins</p>
+        </div>
+        <div class="order-id-tag">Order #MRD-<span id="track-order-id">84920</span></div>
+      </div>
+
+      <!-- Animated Progress Tracker -->
+      <div class="status-steps-timeline">
+        <div class="step-item step-completed" id="track-step-1">
+          <div class="step-indicator">✓</div>
+          <div class="step-text">
+            <strong>Order Placed</strong>
+            <small>Sent to restaurant</small>
+          </div>
+        </div>
+        <div class="step-line line-1" id="track-line-1"></div>
+
+        <div class="step-item step-active" id="track-step-2">
+          <div class="step-indicator">
+            <span class="step-pulse"></span>
+            🍳
+          </div>
+          <div class="step-text">
+            <strong>Kitchen Preparing</strong>
+            <small>Packing fresh & hot</small>
+          </div>
+        </div>
+        <div class="step-line line-2" id="track-line-2"></div>
+
+        <div class="step-item" id="track-step-3">
+          <div class="step-indicator">🛵</div>
+          <div class="step-text">
+            <strong>Driver On The Way</strong>
+            <small>Heading to your address</small>
+          </div>
+        </div>
+        <div class="step-line line-3" id="track-line-3"></div>
+
+        <div class="step-item" id="track-step-4">
+          <div class="step-indicator">🏠</div>
+          <div class="step-text">
+            <strong>Delivered</strong>
+            <small>Enjoy your meal!</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Delivery Map Simulation -->
+      <div class="live-map-simulation">
+        <div class="map-canvas-wrap">
+          <svg class="map-vector" viewBox="0 0 600 240" fill="none">
+            <!-- Road Networks -->
+            <path d="M 40 180 Q 180 180 260 120 T 520 70" stroke="#E2E8F0" stroke-width="20" stroke-linecap="round"/>
+            <path d="M 120 40 L 120 200" stroke="#E2E8F0" stroke-width="12" stroke-linecap="round"/>
+            <path d="M 380 40 L 380 210" stroke="#E2E8F0" stroke-width="12" stroke-linecap="round"/>
+            <path d="M 40 180 Q 180 180 260 120 T 520 70" stroke="#CBD5E1" stroke-width="2" stroke-dasharray="6 6"/>
+
+            <!-- Active Delivery Route -->
+            <path id="svg-route-path" d="M 60 180 Q 180 180 260 120 T 500 75" stroke="#FFC200" stroke-width="6" stroke-linecap="round"/>
+          </svg>
+
+          <!-- Restaurant Marker -->
+          <div class="map-pin restaurant-pin" style="left: 45px; top: 155px;">
+            <div class="pin-icon">🏪</div>
+            <div class="pin-label" id="map-restaurant-name">Nando's Sandton</div>
+          </div>
+
+          <!-- Customer Destination Marker -->
+          <div class="map-pin destination-pin" style="left: 485px; top: 55px;">
+            <div class="pin-icon">📍</div>
+            <div class="pin-label">Your Location</div>
+          </div>
+
+          <!-- Animated Moving Scooter Marker -->
+          <div class="driver-marker" id="animated-driver-marker" style="left: 170px; top: 155px;">
+            <div class="driver-scooter-bubble">
+              <span class="scooter-emoji">🛵</span>
+            </div>
+            <div class="driver-radar-ring"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Driver Profile Card -->
+      <div class="driver-card">
+        <div class="driver-avatar-wrap">
+          <div class="driver-avatar">SM</div>
+        </div>
+        <div class="driver-info">
+          <div class="driver-name-row">
+            <strong class="driver-name" id="track-driver-name">Sipho Mthembu</strong>
+            <span class="driver-rating">★ 4.9 (1.4k orders)</span>
+          </div>
+          <p class="driver-vehicle" id="track-driver-vehicle">Red Honda Ace 125 • Reg: CA 849-210</p>
+        </div>
+        <div class="driver-contact-actions">
+          <button type="button" class="btn-driver-call" id="btn-call-driver" title="Call driver">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+            </svg>
+            <span>Call</span>
+          </button>
+          <button type="button" class="btn-driver-msg" id="btn-msg-driver" title="Chat with driver">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Simulation Controller for Testing Flow -->
+      <div class="simulation-controller">
+        <span class="sim-label">Demo Controls:</span>
+        <button type="button" class="btn-sim-step" id="btn-advance-simulation">Advance Delivery Stage ➔</button>
+        <button type="button" class="btn-sim-reset" id="btn-reset-order">Reset Demo Order</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Location Picker Modal -->
+  <dialog class="app-modal" id="location-modal" aria-labelledby="location-modal-title">
+    <div class="modal-dialog-content">
+      <button type="button" class="modal-close-btn" id="close-location-modal" aria-label="Close location picker">✕</button>
+      <h2 id="location-modal-title">Choose Delivery Suburb</h2>
+      <p>Select your delivery hub across South Africa:</p>
+
+      <div class="locations-list">
+        <button type="button" class="location-item active" data-location="Sandton City, Johannesburg">
+          <span class="loc-pin">📍</span>
+          <div class="loc-meta">
+            <strong>Sandton City</strong>
+            <small>Johannesburg, Gauteng</small>
+          </div>
+          <span class="loc-check">✓</span>
+        </button>
+        <button type="button" class="location-item" data-location="Rosebank Mall, Johannesburg">
+          <span class="loc-pin">📍</span>
+          <div class="loc-meta">
+            <strong>Rosebank</strong>
+            <small>Johannesburg, Gauteng</small>
+          </div>
+          <span class="loc-check">✓</span>
+        </button>
+        <button type="button" class="location-item" data-location="Menlyn Park, Pretoria">
+          <span class="loc-pin">📍</span>
+          <div class="loc-meta">
+            <strong>Menlyn Park</strong>
+            <small>Pretoria, Gauteng</small>
+          </div>
+          <span class="loc-check">✓</span>
+        </button>
+        <button type="button" class="location-item" data-location="Sea Point & Waterfront, Cape Town">
+          <span class="loc-pin">📍</span>
+          <div class="loc-meta">
+            <strong>Sea Point & Waterfront</strong>
+            <small>Cape Town, Western Cape</small>
+          </div>
+          <span class="loc-check">✓</span>
+        </button>
+        <button type="button" class="location-item" data-location="Umhlanga Rocks, Durban">
+          <span class="loc-pin">📍</span>
+          <div class="loc-meta">
+            <strong>Umhlanga Rocks</strong>
+            <small>Durban, KwaZulu-Natal</small>
+          </div>
+          <span class="loc-check">✓</span>
+        </button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Toast Notifications Toast Container -->
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <!-- Mobile Bottom Sticky Navigation Bar -->
+  <nav class="mobile-bottom-nav" aria-label="Mobile Navigation">
+    <button type="button" class="mobile-nav-item active" id="mob-nav-home">
+      <span class="mob-nav-icon">🏠</span>
+      <span class="mob-nav-label">Explore</span>
+    </button>
+    <button type="button" class="mobile-nav-item" id="mob-nav-groceries">
+      <span class="mob-nav-icon">🛒</span>
+      <span class="mob-nav-label">Groceries</span>
+    </button>
+    <button type="button" class="mobile-nav-item" id="mob-nav-orders">
+      <span class="mob-nav-icon">🧾</span>
+      <span class="mob-nav-label">Orders</span>
+    </button>
+    <button type="button" class="mobile-nav-item" id="mob-nav-cart">
+      <div class="mob-cart-badge-wrap">
+        <span class="mob-nav-icon">🛍️</span>
+        <span class="mob-cart-count" id="mob-cart-badge">0</span>
+      </div>
+      <span class="mob-nav-label">Basket</span>
+    </button>
+  </nav>
+
+  <!-- Core App Logic -->
+  <script src="app.js"></script>
+</body>
+</html>
